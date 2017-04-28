@@ -80,17 +80,24 @@ You can add manually below shell script into your CI build script to send data t
 $ curl -X POST -d "commit={40-digits-sha}&key={key}&value={value}" http://{your-server}/{user}/{repo}/
 ```
 
-OR use built-in script for some CI services listed in below.
+Initially, GitHub serves a badge image in README by caching via `CAMO` in 1 day. To force update the image, you can use
+
+```bash
+$ curl -X PURGE https://camo.githubusercontent.com/{your-img-id}
+```
+
+**OR** use built-in script for some CI services listed in below.
 
 ### Travis-CI
 
 If you're using [Travis-CI](https://travis-ci.org/) for your project, you don't need to deal with Git or GitHub things manually. `.showbadge-travis.sh` is going to do it for you *(except for pull-request builds)*.
 
 1. Copy `.showbadge-travis.sh` to your project's repository.
-2. Add an environment `SHOWBADGE_SERVER` to your `.travis.yml` file with your server URL.
-3. Add `./.showbadge-travis.sh <key> <value>` to your `.travis.yml` file with your custom key-value.
+2. Add an environment `SHOWBADGE_SERVER` to `settings` of the repository in `Travis-CI` with your server URL.
+3. Add an environment `SHOWBADGE_CAMO` to your `settings` of the repository in `Travis-CI` with your GitHub image URL. *(optional)*
+4. Add `./.showbadge-travis.sh <key> <value>` to your `.travis.yml` file with your custom key-value. *(`after_success` is recommended)*
 
-If you want to save more than one data with different keys, just repeat step 3.
+If you want to save more than one data with different keys, just repeat step 4.
 
 **Example**
 If `grade` file containing the grade of format `Total: XX.X%/100.0%` together with specific details would be created after the build success, we can make `.travis.yml` to send key-value as `grade` and `XX.X/100.0`, respectively:
