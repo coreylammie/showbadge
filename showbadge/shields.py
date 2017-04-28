@@ -26,7 +26,7 @@ class Shields:
     COLOR_COVER_5 = "brightgreen"
 
     CHAR_RE = "[A-z!#$%&'*+-.^_`|~:]"
-    NUM_RE = "-?(\d+(.\d+)?|.\d+)"
+    NUM_RE = "-?([0-9]+(\.[0-9]+)?|\.[0-9]+)"
     COLOR_RE = "^auto(-?(?P<num1>{num})(-?(?P<num2>{num}))?)?$".format(num=NUM_RE)
     VALUE_RE = "^{char}*(?P<num>{num}){char}*$".format(char=CHAR_RE, num=NUM_RE)
     VALUE_FRAC_RE = "^{char}*(?P<num1>{num})/(?P<num2>{num}){char}*$".format(
